@@ -30,7 +30,7 @@ public class PIMPage {
 	@FindBy(linkText="Employee List")
 	WebElement employeeList;
 
-	@FindBy(linkText="Add Employee")
+	@FindBy(xpath="//a[text()='Add Employee']")
 	WebElement addEmp;
 	
 	@FindBy(xpath="//label[text()='Employee Id']/../following-sibling::div/input")
@@ -48,7 +48,7 @@ public class PIMPage {
 	@FindBy(xpath="//h6[normalize-space()='Personal Details']")
 	WebElement personalDetailHeader;
 
-	@FindBy(xpath="(//input[@placeholder='Type for hints...'])[1]")
+	@FindBy(xpath="//label[text()='Employee Name']/../following-sibling::div//input")
 	WebElement employeeName;
 
 	@FindBy(xpath="//button[normalize-space()='Search']")
@@ -75,7 +75,14 @@ public class PIMPage {
 	@FindBy(xpath="//div[contains(@class,'oxd-toast-content')]")
 	WebElement successMessage;
 	public void clickPIM() {
+
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+	    wait.until(ExpectedConditions.elementToBeClickable(pimMenu));
+
 	    pimMenu.click();
+
+	    wait.until(ExpectedConditions.visibilityOf(employeeList));
 	}
 
 	public void clickEmployeeList() {
@@ -141,15 +148,26 @@ public class PIMPage {
 	    return header.isDisplayed();
 	}
 	public void searchEmployee(String name) {
+
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-	    wait.until(ExpectedConditions.visibilityOf(employeeName)).sendKeys(name);
+
+	    WebElement searchBox =
+	            wait.until(ExpectedConditions.elementToBeClickable(employeeName));
+
+	    searchBox.clear();
+
+	    searchBox.sendKeys(name);
 	}
 
 	public void clickSearch() {
+
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-	    wait.until(ExpectedConditions.elementToBeClickable(searchButton)).click();
+
+	    WebElement btn =
+	            wait.until(ExpectedConditions.elementToBeClickable(searchButton));
+
+	    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", btn);
 	}
-	
 	public void openEmployee() {
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
