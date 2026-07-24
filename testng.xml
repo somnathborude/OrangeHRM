@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="OrangeHRM Suite">
+
+    <listeners>
+        <listener class-name="utilities.TestListener"/>
+    </listeners>
+
+    <test name="Regression Test">
+
+        <classes>
+            <class name="tests.PIMTest"/>
+            <class name="tests.EditEmployeeTest"/>
+            <class name="tests.DeleteEmployeeTest"/>
+        </classes>
+
+    </test>
+
+</suite>
