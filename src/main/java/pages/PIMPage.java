@@ -30,7 +30,7 @@ public class PIMPage {
 	@FindBy(linkText="Employee List")
 	WebElement employeeList;
 
-	@FindBy(linkText="Add Employee")
+	@FindBy(xpath="//a[contains(@href,'addEmployee')]")
 	WebElement addEmp;
 	
 	@FindBy(xpath="//label[text()='Employee Id']/../following-sibling::div/input")
@@ -95,15 +95,17 @@ public class PIMPage {
 
 	public void clickAddEmployee() {
 
+	    System.out.println("Current URL : " + driver.getCurrentUrl());
+	    System.out.println("Page Title : " + driver.getTitle());
+
+	    System.out.println(driver.findElement(By.tagName("body")).getText());
+
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-	    WebElement addButton = wait.until(
-	            ExpectedConditions.elementToBeClickable(
-	                    By.linkText("Add Employee")));
+	    WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(
+	            By.xpath("//a[contains(.,'Add Employee')]")));
 
-	    ((JavascriptExecutor) driver)
-	            .executeScript("arguments[0].click();", addButton);
-
+	    addButton.click();
 	}
 
 	public void addEmployee(String fname, String lname) {
