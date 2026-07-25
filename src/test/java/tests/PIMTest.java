@@ -21,13 +21,13 @@ public class PIMTest extends BaseClass {
 
         PIMPage pim = new PIMPage(driver);
 
-        // Open PIM
         pim.clickPIM();
 
-        // Add Employee
         pim.clickAddEmployee();
-        pim.addEmployee("Soma", "Borude");
-        pim.clickSave();
+
+        String empName = pim.addEmployeeAndReturnName();
+
+        System.out.println("Employee Name : " + empName);
 
         // Verify Personal Details Page
         Assert.assertTrue(pim.isPersonalDetailsDisplayed());
@@ -37,7 +37,7 @@ public class PIMTest extends BaseClass {
         pim.clickEmployeeList();
 
         // Search Employee
-        pim.searchEmployee("Soma");
+        pim.searchEmployee(empName);
         pim.clickSearch();
 
         Thread.sleep(3000);

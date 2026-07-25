@@ -23,9 +23,17 @@ public class DeleteEmployeeTest extends BaseClass {
 
         pim.clickPIM();
 
+        pim.clickAddEmployee();
+
+        String empName = pim.addEmployeeAndReturnName();
+
+        Assert.assertTrue(pim.isPersonalDetailsDisplayed());
+
+        pim.clickPIM();
+
         pim.clickEmployeeList();
 
-        pim.searchEmployee("Soma");
+        pim.searchEmployee(empName);
 
         pim.clickSearch();
 

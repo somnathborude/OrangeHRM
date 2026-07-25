@@ -257,6 +257,16 @@ public class PIMPage {
 
 	    return toast.isDisplayed();
 	}
+	public String addEmployeeAndReturnName() {
+
+	    String empName = "Soma" + System.currentTimeMillis();
+
+	    addEmployee(empName, "Borude");
+
+	    clickSave();
+
+	    return empName;
+	}
 	}
 	
 	
