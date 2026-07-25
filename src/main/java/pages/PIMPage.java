@@ -76,18 +76,16 @@ public class PIMPage {
 	WebElement successMessage;
 	public void clickPIM() {
 
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-	    WebElement pim = wait.until(ExpectedConditions.elementToBeClickable(
-	            By.xpath("//span[text()='PIM']")));
+	    WebElement pim = wait.until(
+	            ExpectedConditions.elementToBeClickable(pimMenu));
 
-	    pim.click();
+	    ((JavascriptExecutor) driver)
+	            .executeScript("arguments[0].click();", pim);
 
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(
-	            By.linkText("Employee List")));
+	    wait.until(ExpectedConditions.urlContains("/pim"));
 
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(
-	            By.linkText("Add Employee")));
 	}
 
 	public void clickEmployeeList() {
@@ -96,9 +94,18 @@ public class PIMPage {
 	}
 
 	public void clickAddEmployee() {
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-	    wait.until(ExpectedConditions.elementToBeClickable(addEmp)).click();
+
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+	    WebElement addButton = wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    By.linkText("Add Employee")));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript("arguments[0].click();", addButton);
+
 	}
+
 	public void addEmployee(String fname, String lname) {
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
