@@ -30,7 +30,7 @@ public class PIMPage {
 	@FindBy(linkText="Employee List")
 	WebElement employeeList;
 
-	@FindBy(xpath="//a[text()='Add Employee']")
+	@FindBy(linkText="Add Employee")
 	WebElement addEmp;
 	
 	@FindBy(xpath="//label[text()='Employee Id']/../following-sibling::div/input")
@@ -48,9 +48,9 @@ public class PIMPage {
 	@FindBy(xpath="//h6[normalize-space()='Personal Details']")
 	WebElement personalDetailHeader;
 
-	@FindBy(xpath="//label[text()='Employee Name']/../following-sibling::div//input")
+	@FindBy(xpath="(//input[@placeholder='Type for hints...'])[1]")
 	WebElement employeeName;
-
+	
 	@FindBy(xpath="//button[normalize-space()='Search']")
 	WebElement searchButton;
 	
@@ -78,15 +78,20 @@ public class PIMPage {
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-	    wait.until(ExpectedConditions.elementToBeClickable(pimMenu));
+	    WebElement pim = wait.until(ExpectedConditions.elementToBeClickable(
+	            By.xpath("//span[text()='PIM']")));
 
-	    pimMenu.click();
+	    pim.click();
 
-	    wait.until(ExpectedConditions.visibilityOf(employeeList));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(
+	            By.linkText("Employee List")));
+
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(
+	            By.linkText("Add Employee")));
 	}
 
 	public void clickEmployeeList() {
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25));
 	    wait.until(ExpectedConditions.elementToBeClickable(employeeList)).click();
 	}
 
