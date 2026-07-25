@@ -96,18 +96,16 @@ public class PIMPage {
 	public void clickAddEmployee() {
 
 	    System.out.println("Current URL : " + driver.getCurrentUrl());
-	    System.out.println("Page Title : " + driver.getTitle());
-
-	    System.out.println(driver.findElement(By.tagName("body")).getText());
+	    System.out.println("Current Title : " + driver.getTitle());
+	    System.out.println(driver.getPageSource());
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-	    WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(
-	            By.xpath("//a[contains(.,'Add Employee')]")));
+	    WebElement add = wait.until(ExpectedConditions.elementToBeClickable(
+	            By.linkText("Add Employee")));
 
-	    addButton.click();
+	    add.click();
 	}
-
 	public void addEmployee(String fname, String lname) {
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
