@@ -29,8 +29,8 @@ public class PIMPage {
 
 	@FindBy(linkText="Employee List")
 	WebElement employeeList;
-
-	@FindBy(xpath="//a[contains(@href,'addEmployee')]")
+	
+	@FindBy(xpath="//a[normalize-space()='Add Employee']")
 	WebElement addEmp;
 	
 	@FindBy(xpath="//label[text()='Employee Id']/../following-sibling::div/input")
@@ -78,14 +78,9 @@ public class PIMPage {
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-	    WebElement pim = wait.until(
-	            ExpectedConditions.elementToBeClickable(pimMenu));
+	    wait.until(ExpectedConditions.elementToBeClickable(pimMenu)).click();
 
-	    ((JavascriptExecutor) driver)
-	            .executeScript("arguments[0].click();", pim);
-
-	    wait.until(ExpectedConditions.urlContains("/pim"));
-
+	    wait.until(ExpectedConditions.visibilityOf(addEmp));
 	}
 
 	public void clickEmployeeList() {
@@ -97,14 +92,11 @@ public class PIMPage {
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-	    wait.until(ExpectedConditions.urlContains("/pim"));
-
 	    WebElement add = wait.until(
-	        ExpectedConditions.visibilityOfElementLocated(
-	            By.linkText("Add Employee")));
+	            ExpectedConditions.elementToBeClickable(addEmp));
 
-	    ((JavascriptExecutor)driver)
-	        .executeScript("arguments[0].click();", add);
+	    ((JavascriptExecutor) driver)
+	            .executeScript("arguments[0].click();", add);
 	}
 	public void addEmployee(String fname, String lname) {
 
