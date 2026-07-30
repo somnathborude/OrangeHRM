@@ -1,23 +1,20 @@
 package utilities;
-import base.BaseClass;
-import java.io.IOException;
 
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import base.BaseClass;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
+
+
 public class TestListener implements ITestListener {
 
-    ExtentReports extent = ExtenetManager.getReport();
+    ExtentReports extent = ExtentManager.getReport();
     ExtentTest test;
-
-    @Override
-    public void onStart(ITestContext context) {
-        System.out.println("Execution Started");
-    }
 
     @Override
     public void onTestStart(ITestResult result) {
@@ -29,31 +26,25 @@ public class TestListener implements ITestListener {
         test.pass("Test Passed");
     }
 
-  
     @Override
     public void onTestFailure(ITestResult result) {
 
-        System.out.println("Failure Listener Called");
-
         test.fail(result.getThrowable());
 
-        try {
+        WebDriver driver = BaseClass.driver;
 
-            String path = ScreenshotUtil.captureScreenshot(
-                    BaseClass.driver,
-                    result.getMethod().getMethodName());
+        String path = ScreenshotUtility.captureScreenshot(driver,
+                result.getMethod().getMethodName());
 
-            test.addScreenCaptureFromPath(path);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        test.addScreenCaptureFromPath(path);
     }
+    @Override
+    public void onTestSkipped(ITestResult result) {
+        test.skip("Test Skipped");
+    }
+
     @Override
     public void onFinish(ITestContext context) {
         extent.flush();
-        System.out.println("Report Generated Successfully");
     }
-   
 }
-

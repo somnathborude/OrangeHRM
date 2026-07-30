@@ -30,6 +30,7 @@ public class LoginPage {
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+       
     }
 
     public void login(String username, String password) {
@@ -41,6 +42,7 @@ public class LoginPage {
         txtUsername.sendKeys(username);
         txtPassword.sendKeys(password);
         btnLogin.click();
+        
     }
 
     public boolean isLoginPageDisplayed() {
@@ -50,4 +52,5 @@ public class LoginPage {
     public boolean isInvalidCredentialDisplayed() {
         return invalidMessage.isDisplayed();
     }
+    
 }

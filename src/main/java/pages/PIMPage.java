@@ -7,13 +7,15 @@ import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public class PIMPage {
 	WebDriver driver;
 	
@@ -74,18 +76,29 @@ public class PIMPage {
 
 	@FindBy(xpath="//div[contains(@class,'oxd-toast-content')]")
 	WebElement successMessage;
+	
+	private static final Logger logger = LogManager.getLogger(PIMPage.class);
 	public void clickPIM() {
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
 	    wait.until(ExpectedConditions.elementToBeClickable(pimMenu)).click();
 
+	    logger.info("Clicked on PIM menu");
+
 	    wait.until(ExpectedConditions.visibilityOf(addEmp));
 	}
-
 	public void clickEmployeeList() {
+
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25));
-	    wait.until(ExpectedConditions.elementToBeClickable(employeeList)).click();
+
+	    WebElement empList = wait.until(
+	            ExpectedConditions.elementToBeClickable(employeeList));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript("arguments[0].click();", empList);
+
+	    logger.info("Clicked on Employee List");
 	}
 
 	public void clickAddEmployee() {
@@ -97,7 +110,11 @@ public class PIMPage {
 
 	    ((JavascriptExecutor) driver)
 	            .executeScript("arguments[0].click();", add);
+
+	    logger.info("Clicked on Add Employee");
 	}
+
+	
 	public void addEmployee(String fname, String lname) {
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -110,12 +127,15 @@ public class PIMPage {
 	    lastname.clear();
 	    lastname.sendKeys(lname);
 
-	    wait.until(ExpectedConditions.visibilityOf(employeeId));
+	    wait.until(ExpectedConditions.invisibilityOfElementLocated(
+	            By.className("oxd-form-loader")));
 
-	    employeeId.click();
-	    employeeId.sendKeys(org.openqa.selenium.Keys.CONTROL + "a");
-	    employeeId.sendKeys(org.openqa.selenium.Keys.DELETE);
+	    WebElement empId = wait.until(
+	            ExpectedConditions.elementToBeClickable(employeeId));
 
+	    empId.click();
+	    empId.sendKeys(Keys.CONTROL + "a");
+	    empId.sendKeys(Keys.DELETE);
 	    Random random = new Random();
 	    int id = 100000000 + random.nextInt(900000000);
 
@@ -141,6 +161,7 @@ public class PIMPage {
 	    save.click();
 
 	    System.out.println("URL After Save : " + driver.getCurrentUrl());
+	    logger.info("Employee Saved Successfully");
 	}
 	public boolean isPersonalDetailsDisplayed() {
 
@@ -194,6 +215,7 @@ public class PIMPage {
 	    lastName.clear();
 
 	    lastName.sendKeys(lname);
+	    logger.info("Last Name Updated");
 	}	
 	public void clickSaveDetails() {
 
@@ -244,6 +266,7 @@ public class PIMPage {
 	                    By.xpath("//button[normalize-space()='Yes, Delete']")));
 
 	    yesBtn.click();
+	    logger.info("Employee Deleted Successfully");
 	}
 
 	public boolean isDeleteSuccessMessageDisplayed() {
@@ -266,6 +289,7 @@ public class PIMPage {
 
 	    return empName;
 	}
+	
 	}
 	
 	
